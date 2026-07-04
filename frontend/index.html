@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Cognee Case Files</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header id="top-bar">
+  <div class="brand">
+    <h1>The Cognee Case Files</h1>
+    <p class="case-name" id="case-name-text">Choose a case to begin</p>
+  </div>
+  <div class="top-actions">
+    <button id="new-game-btn" class="btn btn-ghost" title="Pick a case and start fresh">New Game</button>
+    <button id="how-to-play-btn" class="btn btn-ghost" title="How to play">How to Play</button>
+    <button id="hint-btn" class="btn btn-ghost" title="Ask for a nudge">Hint</button>
+    <button id="accuse-btn" class="btn btn-accent">Final Deduction</button>
+  </div>
+</header>
+
+<main id="layout">
+  <nav id="side-panel">
+    <section class="panel-block">
+      <h2>Places</h2>
+      <div id="locations" class="card-list"></div>
+    </section>
+    <section class="panel-block">
+      <h2>People</h2>
+      <div id="suspects" class="card-list"></div>
+    </section>
+  </nav>
+
+  <section id="board-wrap">
+    <div class="board-header">
+      <h2>Evidence Board</h2>
+      <p id="contradiction-banner" class="hidden"></p>
+    </div>
+    <div id="board-scroll">
+      <svg id="string-layer"></svg>
+      <div id="board-canvas"></div>
+    </div>
+  </section>
+</main>
+
+<footer id="log-bar">
+  <div id="log-feed"></div>
+</footer>
+
+<!-- Case select -->
+<div id="case-select-modal" class="modal-overlay hidden">
+  <div class="modal paper case-select">
+    <h2>Choose a Case</h2>
+    <p class="hint-text">Picking a case wipes the board and starts that case from the beginning.</p>
+    <div id="case-list" class="case-list"></div>
+  </div>
+</div>
+
+<!-- Briefing -->
+<div id="briefing-modal" class="modal-overlay hidden">
+  <div class="modal paper">
+    <h2 id="briefing-title">The Case</h2>
+    <p id="briefing-summary"></p>
+    <button id="briefing-close" class="btn btn-accent">Begin Investigation</button>
+  </div>
+</div>
+
+<!-- Interrogation -->
+<div id="interrogation-modal" class="modal-overlay hidden">
+  <div class="modal paper interrogation">
+    <button class="modal-close" data-close="interrogation-modal">&times;</button>
+    <div class="suspect-heading">
+      <h2 id="interrogation-name"></h2>
+      <p id="interrogation-role"></p>
+    </div>
+    <div id="interrogation-dialogue" class="dialogue-box">
+      <p class="placeholder">Choose a question.</p>
+    </div>
+    <div id="interrogation-topics" class="topic-list"></div>
+    <div id="interrogation-contradiction" class="hidden"></div>
+  </div>
+</div>
+
+<!-- How to Play -->
+<div id="how-to-play-modal" class="modal-overlay hidden">
+  <div class="modal paper how-to-play">
+    <button class="modal-close" data-close="how-to-play-modal">&times;</button>
+    <h2>How to Play</h2>
+    <ol>
+      <li>Click a place on the left to search it. Clues you find get pinned to the board.</li>
+      <li>Click a person on the left, then pick a question. Their answer gets pinned too.</li>
+      <li>If a red warning shows up, one person's answer does not match a clue you found. Open that person again and click <strong>Confront</strong> to call them out on it.</li>
+      <li>Stuck? Click <strong>Hint</strong> for a nudge.</li>
+      <li>When you think you know the answer, click <strong>Final Deduction</strong>. Drag the person you suspect and the three clues that back up your case into the boxes, then submit.</li>
+    </ol>
+    <p class="hint-text">You only win if your answer is backed by real evidence -- naming the right person is not enough on its own.</p>
+  </div>
+</div>
+
+<!-- Hint -->
+<div id="hint-modal" class="modal-overlay hidden">
+  <div class="modal paper hint-modal">
+    <button class="modal-close" data-close="hint-modal">&times;</button>
+    <h2>A Thought Occurs&hellip;</h2>
+    <p id="hint-text"></p>
+  </div>
+</div>
+
+<!-- Accusation -->
+<div id="accusation-modal" class="modal-overlay hidden">
+  <div class="modal paper accusation">
+    <button class="modal-close" data-close="accusation-modal">&times;</button>
+    <h2>Final Deduction</h2>
+    <p class="hint-text">Drag a person into the first box, and clues into the other three.</p>
+    <div class="slots">
+      <div class="slot" data-slot="culprit"><span class="slot-label">Who Did It</span><div class="slot-drop" data-accepts="Suspect"></div></div>
+      <div class="slot" data-slot="motive"><span class="slot-label">Why They Did It</span><div class="slot-drop" data-accepts="Clue"></div></div>
+      <div class="slot" data-slot="opportunity"><span class="slot-label">Where They Really Were</span><div class="slot-drop" data-accepts="Clue"></div></div>
+      <div class="slot" data-slot="means"><span class="slot-label">What They Used</span><div class="slot-drop" data-accepts="Clue"></div></div>
+    </div>
+    <div class="tray-wrap">
+      <h3>Your Findings</h3>
+      <div id="accusation-tray" class="card-tray"></div>
+    </div>
+    <button id="submit-accusation" class="btn btn-accent">Submit Deduction</button>
+    <div id="verdict-box" class="hidden"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
