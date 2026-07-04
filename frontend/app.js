@@ -505,11 +505,13 @@ async function onSubmitAccusation() {
   }
 }
 
+const SLOT_LABEL = { culprit: "Culprit", motive: "Motive", opportunity: "Location", means: "Weapon" };
+
 function renderVerdict(result) {
   const box = document.getElementById("verdict-box");
   box.classList.remove("hidden");
   const lines = Object.entries(result.links)
-    .map(([slot, r]) => `<li class="${r.valid ? "valid" : "invalid"}">${slot}: ${r.valid ? "confirmed" : r.reason}</li>`)
+    .map(([slot, r]) => `<li class="${r.valid ? "valid" : "invalid"}">${SLOT_LABEL[slot] || slot}: ${r.valid ? "confirmed" : r.reason}</li>`)
     .join("");
   box.innerHTML = `<h3 class="verdict-${result.verdict}">${result.verdict}</h3><ul class="verdict-links">${lines}</ul>`;
 }
